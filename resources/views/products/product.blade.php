@@ -2,12 +2,12 @@
     <x-navbar>
     <x-slot:categories>
         <section id="byCategory">
-        @foreach($categories as $cat)
+        @foreach($product->categories as $category)
 
             <li id="byCategory">
-                <a href="/products/category/{{$cat->name}}"
+                <a href="/products/category/{{$category->name}}"
                    class="bg-gray-700 hover:bg-blue-400 text-white font-bold border-gray-700 hover:border-gray-700 rounded">
-                    {{$cat->name}}
+                    {{$category->name}}
                 </a>
             </li>
         @endforeach
@@ -17,7 +17,7 @@
         @if(Auth::check())
 
             <a class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-               href="{{route('showItems')}}">Cart({{$count}})</a>
+               href="{{route('show.count')}}">Cart({{$count}})</a>
         @endif
     </x-slot:count>
     </x-navbar>
@@ -32,7 +32,7 @@
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->excerpt}}</p>
             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->description}}</p>
 
-            <form action="{{route('addToCart',$product->id)}}" method="POST">
+            <form action="{{route('add-to-cart',$product->id)}}" method="POST">
                 @csrf
                 <input class="w-1/5 text-yellow-400" type="number" value="1" name="quantity">
                 <input type="hidden" name="product_id" value="{{$product->id}}">
@@ -45,15 +45,12 @@
         </div>
     </div>
 </section>
-    <h1 class="text-center text-xl">You might also like</h1>
+
     @foreach($product->tags as $tag)
         <button type="button" class="mx-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">{{$tag->name}}</button>
 
     @endforeach
-    @foreach ($product->categories as $category)
-{{--        <button type="button" class="mx-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"></button>--}}
-{{--        {{$category->name}}--}}
-    @endforeach
+
     @forelse($products as $product)
         <section class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
 
@@ -79,7 +76,7 @@
             </div>
         </section>
     @empty
-        No posts yet.
+        No related posts.
     @endforelse
     <x-footer>
     </x-footer>

@@ -9,4 +9,8 @@ class Cart extends Model
 {
     protected $table = 'cart';
     use HasFactory;
+    public function scopeCartEmail($query,$user)
+    {
+        return $query->where('email', $user->email)->count();
+    }
 }

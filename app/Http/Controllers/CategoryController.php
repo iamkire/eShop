@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
@@ -16,20 +13,20 @@ class CategoryController extends Controller
         if (Auth::check()) {
             $products = $category->products;
             $user = auth()->user();
-            $count = Cart::where('email', $user->email)->count();
+            $count = Cart::cartemail($user);
             return view('welcome', compact(
                 'products',
                 'count'));
         }
     }
 
-    public function categoryProducts(Category $category)
+    public function sortBy(Category $category)
     {
         $categories = Category::all();
         if (Auth::check()) {
             $products = $category->products;
             $user = auth()->user();
-            $count = Cart::where('email', $user->email)->count();
+            $count = Cart::cartemail($user);
             return view('category.category', compact(
                 'products',
                 'count',
@@ -40,14 +37,14 @@ class CategoryController extends Controller
     {
         return view('category.create');
     }
-    public function store(Category $category, Request $request)
+    public function store(Category $category)
     {
-        $request->validate([
-            'addCategory' => 'required'
+        $attributes = request()->validate([
+            'name' => 'required'
         ]);
 
-        $category->name = $request->addCategory;
-        $category->save();
+        $category->create($attributes);
+
         return redirect('dashboard');
     }
 }

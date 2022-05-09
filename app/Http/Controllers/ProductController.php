@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
@@ -25,7 +26,7 @@ class ProductController extends Controller
 
             $products = Product::inRandomOrder()->limit(3)->get();
             $user = auth()->user();
-            $count = Cart::where('email', $user->email)->count();
+            $count = Cart::cartemail($user);
             return view('welcome', compact(
                 'products',
                 'count',
@@ -60,35 +61,20 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'excerpt' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'image' => 'required',
-            'category' => 'required'
+        $product = Product::create([
+            'title' => request('title'),
+            'excerpt' => request('excerpt'),
+            'description' => request('description'),
+            'price' => request('price'),
+            'image' => Product::getImage()
         ]);
 
-
-        $product = new Product();
-            $product->title = $request->title;
-            $product->excerpt = $request->excerpt;
-            $product->description = $request->description;
-            $product->price = $request->price;
-
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $fileName= time().'.'.$extension;
-
-            $file->move('images',$fileName);
-            $product->image = $fileName;
-        }
         $product->save();
-        $product->categories()->attach($request->category);
-        $tags = explode(', ', $request->tags);
+
+        $product->categories()->attach(request()->category);
+        $tags = explode(', ', request()->tags);
         foreach($tags as $key => $tagName){
             DB::table('tags')->updateOrInsert([
                 'name' => $tagName
@@ -108,7 +94,6 @@ class ProductController extends Controller
     public function show($productId)
     {
         $product = Product::with('categories','tags')->find($productId);
-        $categories = Category::all();
         $tags = $product->tags;
         $tagIds = $tags->pluck('id');
         $postsIds = DB::table('products')
@@ -119,14 +104,12 @@ class ProductController extends Controller
             ->get();
         $products = Product::whereIn('id',$postsIds->pluck('id'))->limit(3)->get();
 
-
         $user = auth()->user();
-        $count = Cart::where('email', $user->email)->count();
+        $count = Cart::cartemail($user);
         return view('products.product', compact(
             'product',
             'count',
-        'categories',
-        'products'));
+            'products'));
     }
 
     public function edit($product)
@@ -137,24 +120,20 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(Request $request,Product $product)
+    public function update(Product $product)
     {
-        $product->title = $request->title;
-        $product->excerpt = $request->excerpt;
-        $product->description = $request->description;
-        $product->price = $request->price;
 
+        $product->categories()->first()->pivot->created_at;
+        $product->categories()->updateExistingPivot('category_id',request()->category);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move('images', $fileName);
-            $product->image = $fileName;
-            $product->categories->first()->pivot->created_at;
-            $product->categories()->updateExistingPivot('category_id',$request->category);
-            $product->save();
-        }
+        $product->update([
+            'title' => request('title'),
+            'excerpt' => request('excerpt'),
+            'description' => request('description'),
+            'price' => request('price'),
+            'image' => Product::getImage()
+        ]);
+        $product->save();
 
         return redirect('dashboard');
     }
