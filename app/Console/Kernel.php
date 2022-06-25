@@ -2,8 +2,12 @@
 
 namespace App\Console;
 
+use App\Mail\WelcomeEmail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Console\Commands\emailCronJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('email:cron')->everyMinute();
     }
 
     /**

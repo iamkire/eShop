@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     protected $table = 'cart';
+    protected $guarded = [];
     use HasFactory;
-    public function scopeCartEmail($query,$user)
+    public function scopeCountProducts($query,$user)
     {
         return $query->where('email', $user->email)->count();
     }

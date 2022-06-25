@@ -18,16 +18,13 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tag', 'product_id', 'tag_id')->withTimestamps();
     }
-
-
-    public static function getImage()
+    public function comments()
     {
-        if (request()->hasFile('image')) {
-            $file = request()->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $extension;
-            $file->move('images', $fileName);
-            return $fileName;
-        }
+        return $this->hasMany(Comment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

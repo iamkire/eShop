@@ -1,16 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<section class="flex justify-center">
-    <form action="{{route('products.update',$product->id)}}" method="POST" enctype="multipart/form-data">
+<x-app-layout>
+
+     <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <a href="{{route('dashboard')}}">{{ __('Dashboard') }}</a>
+            <a class="p-3" href="{{ route('welcome') }}">Home</a>
+        </h2>
+    </x-slot>
+
+    <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-lg mx-auto">
+
+    <form class="bg-white p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl" action="{{route('products.update',$product->id)}}" method="POST" enctype="multipart/form-data">
+
+        <h1 class="text-3xl text-center">Update product</h1> <br>
         @method('PATCH')
         @csrf
 
@@ -65,12 +67,14 @@
         @error('category')
         <div class="text-white bg-red-600 rounded">{{ $message }}</div>
         @enderror
-        <button type="submit"
+            <button type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit
         </button>
 
     </form>
-</section>
-</body>
-</html>
+        </div>
+    </div>
+</x-app-layout>
+
+

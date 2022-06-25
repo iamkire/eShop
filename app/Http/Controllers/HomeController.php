@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 
 class HomeController extends Controller
@@ -12,19 +13,16 @@ class HomeController extends Controller
 
     public function search()
     {
-        $products = Product::latest();
-        if (request('search')) {
-            $products->where('title', 'like', '%' . request('search') . '%');
-            $products->where('excerpt', 'like', '%' . request('search') . '%');
+        $products = Product::where('title', 'like', '%' . request('search') . '%')->get();
+        $count = Cart::countproducts(Auth::user());
+
+        if($products){
+            return view('welcome', compact('count', 'products'));
         }
-        $user = auth()->user();
+        else{
+            return redirect()->back()->with('notFound' , 'Sorry we dont have the specified product');
+        }
 
-
-        $count = Cart::cartemail($user);
-        return view('welcome', compact(
-            'count',
-            'products'
-        ));
     }
 }
 

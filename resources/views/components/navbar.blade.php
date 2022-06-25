@@ -12,9 +12,10 @@
                 <div class="hidden sm:flex sm:items-center sm:ml-6 px-5">
 
                     @if(Auth::user()->user_type == 0)
+                        <img class="w-10 h-10 rounded-full" src="{{asset('../images/' . Auth::user()->image)}}">
                         <button
                             class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <div>User: {{ Auth::user()->name }}</div>
+                            <div>{{ Auth::user()->name }}</div>
                     @endif
                 </div>
 
@@ -54,12 +55,8 @@
                             @endif
                         </li>
                         <li>
-                            <a href="#"
-                               class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                            <a href="{{route('users.index')}}"
+                               class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Manage profile</a>
                         </li>
                         <li>
                             <a href="{{route('logout.perform')}}"
@@ -103,7 +100,7 @@
 
             <!-- Dropdown menu -->
             <div id="dropdownDivider"
-                 class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                 class="p-2 hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
 
                 <ul aria-labelledby="dropdownDividerButton">
                   {{$categories}}
@@ -153,7 +150,8 @@
                     <li>
                         @if(Auth::check())
                             <form method="GET" action="{{route('search')}}">
-                                <input type="text" name="search" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" placeholder="Search...">
+                                @csrf
+                                <input type="text" name="search" class="block py-2 pr-4 pl-3 p-5 text-gray-700 border-b border-gray-100   md:border-0  md:p-0 dark:text-gray-400 dark:border-gray-700" placeholder="Search...">
                             </form>
                         @endif
 

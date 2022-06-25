@@ -1,4 +1,14 @@
-<x-layout>
+<x-app-layout>
+
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <a href="{{route('dashboard')}}">{{ __('Dashboard') }}</a>
+            <a class="p-3" href="{{ route('welcome') }}">Home</a>
+        </h2>
+    </x-slot>
+    <div class="max-w-lg mx-auto text-center mt-10">
+        <h2 class="p-5 text-3xl font-bold sm:text-4xl">Manage your products</h2>
+    </div>
 
 <section class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
     @foreach($products as $product)
@@ -26,6 +36,8 @@
                         @csrf
                         @method('DELETE')
                         <input
+                            onclick="return confirm('Are you sure?')"
+
                             class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                             type="submit" name="delete" value="Delete">
                     </form>
@@ -33,5 +45,23 @@
             </div>
         </div>
     @endforeach
+        @if(session()->has('updated'))
+            <div
+                x-data ="{show: true}"
+                x-init="setTimeout(() => show = false,4000)"
+                x-show="show"
+                class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
+                <p>{{session('updated')}}</p>
+            </div>
+        @endif
+        @if(session()->has('deleted'))
+            <div
+                x-data ="{show: true}"
+                x-init="setTimeout(() => show = false,4000)"
+                x-show="show"
+                class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
+                <p>{{session('deleted')}}</p>
+            </div>
+        @endif
 </section>
-</x-layout>
+</x-app-layout>

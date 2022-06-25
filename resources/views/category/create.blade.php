@@ -1,17 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <title>Document</title>
-</head>
-<body>
-<section class="flex justify-center">
-Add Category <br>
-        <form action="{{route('addCategory')}}" method="POST">
+<x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <a href="{{route('dashboard')}}">{{ __('Dashboard') }}</a>
+                <a class="p-3" href="{{ route('welcome') }}">Home</a>
+            </h2>
+        </x-slot>
+        <x-sidebar>
+        </x-sidebar>
+<div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-lg mx-auto">
+
+        <form class="bg-white p-8 mt-6 mb-0 space-y-4 rounded-lg shadow-2xl" action="{{route('category.store')}}" method="POST">
+            <h1 class="text-center text-3xl">Add Category</h1>
+
             @csrf
             @method('POST')
 <br>
@@ -19,6 +20,7 @@ Add Category <br>
 
             <input type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" placeholder="Submit">
         </form>
-</section>
-</body>
-</html>
+    </div>
+</div>
+
+</x-app-layout>

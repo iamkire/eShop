@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('tag_id')->constrained()->onUpdate('cascade')->onDelete('cascade')->
             references('id')->on('tags');
             $table->timestamps();
+
         });
     }
 

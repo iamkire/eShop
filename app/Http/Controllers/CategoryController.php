@@ -13,24 +13,18 @@ class CategoryController extends Controller
         if (Auth::check()) {
             $products = $category->products;
             $user = auth()->user();
-            $count = Cart::cartemail($user);
-            return view('welcome', compact(
-                'products',
-                'count'));
-        }
+            $count = Cart::countproducts($user);
+            return view('welcome', compact('products', 'count'));}
     }
 
     public function sortBy(Category $category)
     {
-        $categories = Category::all();
         if (Auth::check()) {
             $products = $category->products;
             $user = auth()->user();
-            $count = Cart::cartemail($user);
-            return view('category.category', compact(
-                'products',
-                'count',
-                        'categories'));
+            $categories = Category::all();
+            $count = Cart::countproducts($user);
+            return view('category.category', compact('products', 'count', 'categories'));
         }
     }
     public function create()
@@ -42,7 +36,6 @@ class CategoryController extends Controller
         $attributes = request()->validate([
             'name' => 'required'
         ]);
-
         $category->create($attributes);
 
         return redirect('dashboard');

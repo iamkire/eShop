@@ -14,7 +14,7 @@
             @if(Auth::check())
 
                 <a class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                   href="{{route('show.count')}}">Cart({{$count}})</a>
+                   href="{{route('order.count')}}">Cart({{$count}})</a>
             @endif
         </x-slot:count>
     </x-navbar>
@@ -26,22 +26,37 @@
         </button>
 
 @endif
-    <section class="flex flex-wrap -mx-1 lg:-mx-4 justify-center">
+
+    <h2 class="p-5 text-3xl font-bold sm:text-4xl text-center">Products by category</h2>
+
+    <section class="flex flex-wrap  justify-center">
         @foreach($products as $product)
-            <div
-                class="m-5 text-white p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="{{route('products.show',$product->id)}}">
-                    <img class="rounded-t-lg" src="{{asset('../images/' . $product->image)}}" alt=""/>
-                </a>
-                <div class="p-5">
+            <div class="m-5 p-6 max-w-sm bg-white rounded-lg border ">
+
+                @if(Auth::check())
                     <a href="{{route('products.show',$product->id)}}">
-                        <h5 class="mb-2 text-1xl font-bold tracking-tight text-gray-900 dark:text-white">{{$product->title}}</h5>
+                        @endif
+                        <img class="object-cover w-full -mt-3 h-96" src="{{asset('../images/' . $product->image)}}" alt=""/>
                     </a>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->excerpt}}</p>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->description}}</p>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"> ${{ ($product->price) }} </p>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"> Published at {{ ($product->created_at->diffForHumans()) }} </p>
-                </div>
+
+
+                    <div class="p-5">
+                        @if(Auth::check())
+                            <a href="{{route('products.show',$product->id)}}">
+                                @endif
+                                <h2 class="mt-1 text-2xl font-extrabold tracking-wide uppercase lg:text-3xl">
+                                    {{$product->title}}
+                                </h2>                            </a>
+                            <p class="mb-3 font-normal">{{$product->excerpt}}</p>
+                            <p class="mb-3 font-normal">{{$product->description}}</p>
+
+                            <div class="flex items-center justify-between mt-4 font-bold">
+                                <p class="text-lg">
+                                    ${{$product->price}}
+                                </p>
+                            </div>
+                            <p class="mb-3 font-normal text-yellow-700"> Published {{ ($product->created_at->diffForHumans()) }} </p>
+                    </div>
             </div>
         @endforeach
     </section>

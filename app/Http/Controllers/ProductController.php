@@ -19,20 +19,14 @@ use Session;
 class ProductController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-
-        if (Auth::check() && Auth::user()->user_type == 0) {
-
-            $products = Product::inRandomOrder()->limit(3)->get();
-            $user = auth()->user();
-            $count = Cart::cartemail($user);
-            return view('welcome', compact(
-                'products',
-                'count',
-
-            ));
+        if(Auth::check()) {
+            $products = Product::inRandomOrder()->limit(9)->get();
+            $count = Cart::countproducts(Auth::user());
+            return view('welcome', compact('products', 'count'));
         }
+
         else{
             $products = Product::inRandomOrder()->limit(3)->get();
             return view('welcome',compact('products'));
@@ -42,8 +36,7 @@ class ProductController extends Controller
 
     public function dashboard()
     {
-        $type = Auth::user()->user_type;
-        if ($type == '1') {
+        if (Auth::user()->user_type == '1') {
             return view('dashboard', [
                 'products' => Product::all()
             ]);
@@ -68,12 +61,13 @@ class ProductController extends Controller
             'excerpt' => request('excerpt'),
             'description' => request('description'),
             'price' => request('price'),
-            'image' => Product::getImage()
+            'image' => ImageController::getImage()
         ]);
 
         $product->save();
 
         $product->categories()->attach(request()->category);
+
         $tags = explode(', ', request()->tags);
         foreach($tags as $key => $tagName){
             DB::table('tags')->updateOrInsert([
@@ -86,36 +80,40 @@ class ProductController extends Controller
                 'tag_id' => $tag->id
             ]);
         }
-        return redirect('dashboard');
+        return back()->with(['addedProduct' => 'Product added successfully']);
     }
-
-
 
     public function show($productId)
     {
-        $product = Product::with('categories','tags')->find($productId);
-        $tags = $product->tags;
-        $tagIds = $tags->pluck('id');
-        $postsIds = DB::table('products')
-            ->select(DB::raw('DISTINCT(products.id)'))
-            ->join('product_tag','products.id','=', 'product_tag.product_id')
-            ->whereIn('product_tag.tag_id',$tagIds)
-            ->whereNotIn('product_tag.product_id',[$product->id])
-            ->get();
-        $products = Product::whereIn('id',$postsIds->pluck('id'))->limit(3)->get();
 
-        $user = auth()->user();
-        $count = Cart::cartemail($user);
-        return view('products.product', compact(
-            'product',
-            'count',
-            'products'));
+        $product = Product::with('categories','tags')->find($productId);
+        if($product != null) {
+            $tags = $product->tags;
+                $tagIds = $tags->pluck('id');
+                $postsIds = DB::table('products')
+                    ->select(DB::raw('DISTINCT(products.id)'))
+                    ->join('product_tag', 'products.id', '=', 'product_tag.product_id')
+                    ->whereIn('product_tag.tag_id', $tagIds)
+                    ->whereNotIn('product_tag.product_id', [$product->id])
+                    ->get();
+                $products = Product::whereIn('id', $postsIds->pluck('id'))->limit(3)->get();
+
+                $user = auth()->user();
+                $count = Cart::countproducts($user);
+                return view('products.product', compact(
+                    'product',
+                    'count',
+                    'products'));
+            }
+        else{
+            return abort(404);
+        }
     }
 
     public function edit($product)
     {
         return view('products.edit',[
-           'product' => Product::find($product),
+            'product' => Product::find($product),
             'categories' => Category::all()
         ]);
     }
@@ -123,23 +121,31 @@ class ProductController extends Controller
     public function update(Product $product)
     {
 
-        $product->categories()->first()->pivot->created_at;
-        $product->categories()->updateExistingPivot('category_id',request()->category);
-
         $product->update([
             'title' => request('title'),
             'excerpt' => request('excerpt'),
             'description' => request('description'),
             'price' => request('price'),
-            'image' => Product::getImage()
+            'image' => ImageController::getImage()
         ]);
-        $product->save();
 
-        return redirect('dashboard');
+        $tags = explode(', ', request()->tags);
+        foreach ($tags as $key => $tagName) {
+            DB::table('tags')->updateOrInsert([
+                'name' => $tagName
+            ]);
+            $tag = Tag::where(['name' => $tagName])->first();
+
+            DB::table('product_tag')->insert([
+                'product_id' => $product->id,
+                'tag_id' => $tag->id
+            ]);
+        }
+        return redirect()->route('admin.products')->with('updated' , 'Product updated successfully');
     }
     public function destroy($product)
     {
         Product::destroy($product);
-        return back();
+        return back()->with('deleted', 'Product deleted');
     }
 }

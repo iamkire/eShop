@@ -30,5 +30,20 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('welcome', function($view){
             $view->with('categories',Category::has('products')->pluck('name'));
         });
+        view()->composer('products.product', function($view){
+            $view->with('categories',Category::has('products')->pluck('name'));
+        });
+        view()->composer('users.index', function($view){
+            $view->with('categories',Category::has('products')->pluck('name'));
+        });
+        view()->composer('users.edit', function($view){
+            $view->with('categories',Category::has('products')->pluck('name'));
+        });
+        view()->composer('cart.show', function($view){
+            $view->with('categories',Category::has('products')->pluck('name'));
+        });
+        view()->composer('comments.edit', function($view){
+            $view->with('categories',Category::has('products')->pluck('name'));
+        });
     }
 }
