@@ -15,14 +15,13 @@ class HomeController extends Controller
     {
         $products = Product::where('title', 'like', '%' . request('search') . '%')->get();
         $count = Cart::countproducts(Auth::user());
-
-        if($products){
+        if ($products->count() == 0)
+            return view('welcome', compact('count', 'products'))
+                ->withErrors(['notFound' => 'We couldn\'t find any results']);
+        else {
             return view('welcome', compact('count', 'products'));
         }
-        else{
-            return redirect()->back()->with('notFound' , 'Sorry we dont have the specified product');
-        }
-
     }
+
 }
 

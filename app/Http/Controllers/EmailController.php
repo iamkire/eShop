@@ -13,10 +13,10 @@ class EmailController extends Controller
     public function send()
     {
         $user = Auth::user();
-        if($user->email == request('email')) {
+        if ($user->email == request('email')) {
             Mail::to(Auth::user())->send(new WelcomeEmail());
             return new WelcomeEmail();
-        }else{
+        } else {
             return redirect()->back()->with('emailError', 'Your email does not match our records.');
         }
     }

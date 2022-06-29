@@ -13,18 +13,20 @@ class CommentController extends Controller
     public function store(Product $product)
     {
         request()->validate([
-           'name' => 'required'
+            'name' => 'required'
         ]);
-      Comment::create([
+        Comment::create([
             'name' => request('name'),
             'product_id' => $product->id,
             'user_id' => request()->user()->id
-      ]);
+        ]);
         return redirect()->back();
     }
-    public function edit(Comment $comment){
 
-        return view('comments.edit',[
+    public function edit(Comment $comment)
+    {
+
+        return view('comments.edit', [
             'comment' => $comment,
             'count' => Cart::countproducts(Auth::user())
         ]);
@@ -33,14 +35,16 @@ class CommentController extends Controller
     public function update(Product $product, Comment $comment)
     {
         $comment->update([
-           'name' => request('name')
+            'name' => request('name')
         ]);
-        return redirect()->route('products.show',[
-           'product' => $product
-        ]);
+        return redirect()->route('products.show', [
+            'product' => $product
+        ])->with('commentUpdated', 'Comment has been edited');
     }
-    public function delete($comment){
+
+    public function delete($comment)
+    {
         Comment::destroy($comment);
-        return redirect()->back();
+        return redirect()->back()->with('commentDeleted', 'Comment removed');
     }
 }

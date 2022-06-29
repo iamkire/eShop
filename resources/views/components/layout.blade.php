@@ -14,7 +14,12 @@
 
         <title>Document</title>
     </head>
-    <body>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <body class="font-serif">
     {{$slot}}
 
     <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>

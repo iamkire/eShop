@@ -14,7 +14,7 @@
             @if(Auth::check())
 
                 <a class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                   href="{{route('order.count')}}">Cart({{$count}})</a>
+                   href="{{route('cart.count')}}">Cart({{$count}})</a>
             @endif
         </x-slot:count>
     </x-navbar>
@@ -25,7 +25,7 @@
             Product Added
         </button>
 
-@endif
+    @endif
 
     <h2 class="p-5 text-3xl font-bold sm:text-4xl text-center">Products by category</h2>
 
@@ -36,7 +36,8 @@
                 @if(Auth::check())
                     <a href="{{route('products.show',$product->id)}}">
                         @endif
-                        <img class="object-cover w-full -mt-3 h-96" src="{{asset('../images/' . $product->image)}}" alt=""/>
+                        <img class="object-cover w-full -mt-3 h-96" src="{{asset('../images/' . $product->image)}}"
+                             alt=""/>
                     </a>
 
 
@@ -46,7 +47,7 @@
                                 @endif
                                 <h2 class="mt-1 text-2xl font-extrabold tracking-wide uppercase lg:text-3xl">
                                     {{$product->title}}
-                                </h2>                            </a>
+                                </h2></a>
                             <p class="mb-3 font-normal">{{$product->excerpt}}</p>
                             <p class="mb-3 font-normal">{{$product->description}}</p>
 
@@ -55,7 +56,8 @@
                                     ${{$product->price}}
                                 </p>
                             </div>
-                            <p class="mb-3 font-normal text-yellow-700"> Published {{ ($product->created_at->diffForHumans()) }} </p>
+                            <p class="mb-3 font-normal text-yellow-700">
+                                Published {{ ($product->created_at->diffForHumans()) }} </p>
                     </div>
             </div>
         @endforeach

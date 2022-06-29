@@ -13,41 +13,57 @@
         <x-slot:count>
             @auth
                 <a class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                   href="{{route('order.count')}}">Cart({{$count}})</a>
+                   href="{{route('cart.count')}}">Cart({{$count}})</a>
             @endauth
         </x-slot:count>
     </x-navbar>
-    <div class="mt-10 flex items-center h-screen w-full justify-center">
 
-        <div class="max-w-xs">
-            <div class="bg-gray-100 shadow-xl rounded-lg py-3">
+
+    <header class="mt-10  bg-gray-50">
+        <div class="max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
+            <div class="sm:justify-between sm:items-center sm:flex">
+                <div class="text-center sm:text-left">
+                    <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                        Welcome to your profile, {{Auth::user()->name}}!
+                    </h1>
+
+                    <p class="mt-1.5 text-sm text-gray-500">
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+    <div class="flex mt-10 items-center justify-center">
+        <div class="w-1/3">
+            <div class="bg-gray-50  w-100 p-10 shadow-xl rounded-lg py-3">
 
                 <div class="flex justify-center">
-                <img class="w-10 h-10 rounded-full" src="{{asset('../images/' . Auth::user()->image)}}" alt="image">
+                    <img class="w-20 h-20 rounded-full" src="{{asset('../images/' . Auth::user()->image)}}" alt="image">
                 </div>
                 <div class="p-2">
-                    <h3 class="text-center text-xl text-gray-900 font-medium leading-8">{{Auth::user()->name}}</h3>
-                    <div class="text-center text-gray-400font-semibold">
-                        <p>Customer</p>
-                    </div>
+                    <h3 class="text-center text-4xl  font-medium leading-8">{{Auth::user()->name}}</h3>
+
                     <table class="my-3">
-                        <tbody><tr>
-                            <td class="px-2 py-2 text-gray-500 font-semibold">Address</td>
-                            <td class="px-2 py-2">{{Auth::user()->address}}</td>
+                        <tbody>
+                        <tr>
+                            <td class=" py-2 text-xl font-semibold">Address:</td>
+                            <td class=" py-2 text-xl font-semibold">{{Auth::user()->address}}</td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-2 text-gray-500 font-semibold">Phone</td>
-                            <td class="px-2 py-2">{{Auth::user()->phone}}</td>
+                            <td class=" py-2 text-xl font-semibold">Phone:</td>
+                            <td class=" py-2 text-xl font-semibold">{{Auth::user()->phone}}</td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-2 text-gray-500 font-semibold">Email</td>
-                            <td class="px-2 py-2">{{Auth::user()->email}}</td>
+                            <td class=" py-2 text-xl font-semibold">Email:</td>
+                            <td class=" py-2 text-xl font-semibold">{{Auth::user()->email}}</td>
                         </tr>
                         </tbody>
                     </table>
 
                     <div class="text-center my-3">
-                        <a class=" text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium" href="{{route('users.edit', Auth::user()->id)}}">Edit Profile</a>
+                        <a class="text-white bg-blue-500 py-2 px-4 rounded italic hover:underline hover:text-white font-medium"
+                           href="{{route('users.edit', Auth::user()->id)}}">Edit Profile</a>
                     </div>
                 </div>
             </div>

@@ -11,36 +11,25 @@
     <x-sidebar>
 
     </x-sidebar>
-
-
-    @if($products->count() > 0)
-        <div class="max-w-lg mx-auto text-center mt-10">
-            <h2 class="p-5 text-3xl font-bold sm:text-4xl">Manage your products</h2>
-        </div>
-
+    @if($categories->count() > 0)
         <section class="flex flex-wrap justify-center">
-            @foreach($products as $product)
+            @foreach($categories as $category)
 
                 <div
                     class="m-5 text-white p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md">
-                    <a href="#">
-                        <img class="" src="{{asset('../images/' . $product->image)}}" alt=""/>
-                    </a>
+
                     <div class="p-3">
 
-                        <h5 class="h-10 mb-2 text-1xl font-bold tracking-tight text-gray-900">{{$product->title}}</h5>
-
-                        <p class="h-25 mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->excerpt}}</p>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$product->description}}</p>
+                        <h5 class="h-10 mb-2 text-1xl font-bold tracking-tight text-gray-900">{{$category->name}}</h5>
                         <div class="flex justify-center">
-                            <form action="{{route('products.edit',$product->id)}}" method="POST">
+                            <form action="{{route('category.edit',$category->id)}}" method="POST">
                                 @csrf
                                 @method('GET')
                                 <input
                                     class="focus:outline-none text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-900"
                                     type="submit" name="edit" value="Edit">
                             </form>
-                            <form action="{{route('products.delete',$product->id)}}" method="POST">
+                            <form action="{{route('category.delete',$category->id)}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input
@@ -58,36 +47,26 @@
                     <div class="sm:justify-between sm:items-center sm:flex">
                         <div class="text-center sm:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-                                No products yet, {{Auth::user()->name}}
+                                No categories yet, {{Auth::user()->name}}
                             </h1>
                         </div>
-                        <a href="{{route('products.create')}}">
+                        <a href="{{route('category.create')}}">
                             <button
                                 class="block px-5 py-3 text-md font-medium text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring"
                                 type="button">
-                                Add new product
+                                Add new category
                             </button>
                         </a>
                     </div>
                 </div>
             @endif
-            @if(session()->has('updated'))
-                <div
-                    x-data="{show: true}"
-                    x-init="setTimeout(() => show = false,4000)"
-                    x-show="show"
-                    class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-                    <p>{{session('updated')}}</p>
-                </div>
-            @endif
-            @if(session()->has('deleted'))
+            @if(session()->has('categoryRemoved'))
                 <div
                     x-data="{show: true}"
                     x-init="setTimeout(() => show = false,4000)"
                     x-show="show"
                     class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-                    <p>{{session('deleted')}}</p>
+                    <p>{{session('categoryRemoved')}}</p>
                 </div>
-            @endif
-        </section>
+    @endif
 </x-app-layout>

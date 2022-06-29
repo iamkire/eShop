@@ -1,5 +1,5 @@
 @auth
-<div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
+<div id="contact" class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
 
 <div id="revue-embed" class="p-4 my-8 overflow-hidden text-white lg:grid bg-gradient-to-r from-indigo-500 to-purple-900 border rounded border-gray-200 shadow-md sm:p-6 lg:p-8 ">
     <h3 class="mb-3 text-xl font-medium ">Get more updates...</h3>
@@ -16,7 +16,7 @@
                 <input type="submit" value="Subscribe" class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="member[subscribe]" id="member_submit">
             </div>
         </div>
-        <div class="text-sm font-medium revue-form-footer">By subscribing, you agree with Revue’s <a rel="nofollow" href="https://www.getrevue.co/terms" class="text-blue-600 hover:underline dark:text-blue-500">Terms of Service</a> and <a rel="nofollow" class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.getrevue.co/privacy">Privacy Policy</a>.</div>
+        <div class="text-sm font-medium revue-form-footer">By subscribing, you agree with ShopNest’s <a rel="nofollow" href="https://www.getrevue.co/terms" class="text-blue-600 hover:underline dark:text-blue-500">Terms of Service</a> and <a rel="nofollow" class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.getrevue.co/privacy">Privacy Policy</a>.</div>
     </form>
 </div>
 </div>

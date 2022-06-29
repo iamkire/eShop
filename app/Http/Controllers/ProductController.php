@@ -21,15 +21,13 @@ class ProductController extends Controller
 
     public function index()
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $products = Product::inRandomOrder()->limit(9)->get();
             $count = Cart::countproducts(Auth::user());
             return view('welcome', compact('products', 'count'));
-        }
-
-        else{
-            $products = Product::inRandomOrder()->limit(3)->get();
-            return view('welcome',compact('products'));
+        } else {
+            $products = Product::inRandomOrder()->limit(9)->get();
+            return view('welcome', compact('products'));
         }
     }
 
@@ -48,7 +46,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create',[
+        return view('products.create', [
             'categories' => Category::all()
         ]);
     }
@@ -69,7 +67,7 @@ class ProductController extends Controller
         $product->categories()->attach(request()->category);
 
         $tags = explode(', ', request()->tags);
-        foreach($tags as $key => $tagName){
+        foreach ($tags as $key => $tagName) {
             DB::table('tags')->updateOrInsert([
                 'name' => $tagName
             ]);
@@ -86,41 +84,37 @@ class ProductController extends Controller
     public function show($productId)
     {
 
-        $product = Product::with('categories','tags')->find($productId);
-        if($product != null) {
+        $product = Product::with('categories', 'tags')->find($productId);
+        if ($product != null) {
             $tags = $product->tags;
-                $tagIds = $tags->pluck('id');
-                $postsIds = DB::table('products')
-                    ->select(DB::raw('DISTINCT(products.id)'))
-                    ->join('product_tag', 'products.id', '=', 'product_tag.product_id')
-                    ->whereIn('product_tag.tag_id', $tagIds)
-                    ->whereNotIn('product_tag.product_id', [$product->id])
-                    ->get();
-                $products = Product::whereIn('id', $postsIds->pluck('id'))->limit(3)->get();
-
-                $user = auth()->user();
-                $count = Cart::countproducts($user);
-                return view('products.product', compact(
-                    'product',
-                    'count',
-                    'products'));
-            }
-        else{
+            $tagIds = $tags->pluck('id');
+            $postsIds = DB::table('products')
+                ->select(DB::raw('DISTINCT(products.id)'))
+                ->join('product_tag', 'products.id', '=', 'product_tag.product_id')
+                ->whereIn('product_tag.tag_id', $tagIds)
+                ->whereNotIn('product_tag.product_id', [$product->id])
+                ->get();
+            $products = Product::whereIn('id', $postsIds->pluck('id'))->limit(3)->get();
+            $user = auth()->user();
+            $count = Cart::countproducts($user);
+            return view('products.product', compact(
+                'product', 'count', 'products'
+            ));
+        } else {
             return abort(404);
         }
     }
 
     public function edit($product)
     {
-        return view('products.edit',[
+        return view('products.edit', [
             'product' => Product::find($product),
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     public function update(Product $product)
     {
-
         $product->update([
             'title' => request('title'),
             'excerpt' => request('excerpt'),
@@ -129,20 +123,9 @@ class ProductController extends Controller
             'image' => ImageController::getImage()
         ]);
 
-        $tags = explode(', ', request()->tags);
-        foreach ($tags as $key => $tagName) {
-            DB::table('tags')->updateOrInsert([
-                'name' => $tagName
-            ]);
-            $tag = Tag::where(['name' => $tagName])->first();
-
-            DB::table('product_tag')->insert([
-                'product_id' => $product->id,
-                'tag_id' => $tag->id
-            ]);
-        }
-        return redirect()->route('admin.products')->with('updated' , 'Product updated successfully');
+        return redirect()->route('admin.products')->with('updated', 'Product updated successfully');
     }
+
     public function destroy($product)
     {
         Product::destroy($product);

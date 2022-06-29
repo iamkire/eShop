@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('product_id')->nullable()->references('id')->on('products');
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('product_id')->nullable()->constrained()->references('id')->on('products');
+            $table->foreignId('user_id')->nullable()->constrained()->references('id')->on('users');
             $table->timestamps();
         });
     }
