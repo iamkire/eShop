@@ -78,25 +78,8 @@
                 </div>
 
             @endif
-            @if(session()->has('delivered'))
-                <div
-                    x-data="{show: true}"
-                    x-init="setTimeout(() => show = false,4000)"
-                    x-show="show"
-                    class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-                    <p>{{session('delivered')}}</p>
-                </div>
-            @endif
-            @if(session()->has('orderRemoved'))
-                <div
-                    x-data="{show: true}"
-                    x-init="setTimeout(() => show = false,4000)"
-                    x-show="show"
-                    class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-                    <p>{{session('orderRemoved')}}</p>
-                </div>
-            @endif
-
+            <x-flash-message></x-flash-message>
+            <x-flash-message class="bg-red-500"></x-flash-message>
         </div>
 </x-app-layout>
 

@@ -17,7 +17,7 @@ class EmailController extends Controller
             Mail::to(Auth::user())->send(new WelcomeEmail());
             return new WelcomeEmail();
         } else {
-            return redirect()->back()->with('emailError', 'Your email does not match our records.');
+            return redirect()->back()->with('message', 'Your email does not match our records.');
         }
     }
 }

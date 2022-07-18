@@ -19,7 +19,7 @@ class AdminController extends Controller
         $order->status = 'Delivered';
         $order->save();
 
-        return redirect()->back()->with('delivered', 'Order has been delivered');
+        return redirect()->back()->with('message', 'Order has been delivered');
     }
 
     public function products()
@@ -30,6 +30,6 @@ class AdminController extends Controller
     public function delete($order)
     {
         Order::destroy($order);
-        return back()->with('orderRemoved', 'Order has been deleted');
+        return back()->with('message', 'Order has been deleted');
     }
 }

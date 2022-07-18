@@ -182,30 +182,14 @@
                                     type="submit" name="delete" value="Delete">
                             </form>
                         </div>
-                </div>
+                    </div>
                 </div>
                 @endif
-
             </article>
         </section>
-
     @endforeach
-    @if(session()->has('commentUpdated'))
-        <div
-            x-data="{show: true}"
-            x-init="setTimeout(() => show = false,4000)"
-            x-show="show"
-            class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-            <p>{{session('commentUpdated')}}</p>
-        </div>
-    @endif
-    @if(session()->has('commentDeleted'))
-        <div
-            x-data="{show: true}"
-            x-init="setTimeout(() => show = false,4000)"
-            x-show="show"
-            class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-            <p>{{session('commentDeleted')}}</p>
-        </div>
-    @endif
+    <x-flash-message></x-flash-message>
+    <div>
+    <x-flash-message class="bg-red-500"></x-flash-message>
+    </div>
 </x-layout>

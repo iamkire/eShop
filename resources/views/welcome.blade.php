@@ -86,15 +86,7 @@
     <x-about-style>
 
     </x-about-style>
-    @if(session()->has('message'))
-        <div
-            x-data="{show: true}"
-            x-init="setTimeout(() => show = false,4000)"
-            x-show="show"
-            class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-            <p>{{session('message')}}</p>
-        </div>
-    @endif
+    <x-flash-message></x-flash-message>
     @guest
         <x-aboutus>
 
@@ -104,15 +96,7 @@
 
     </x-contact>
 
-    @if(session()->has('emailError'))
-        <div
-            x-data="{show: true}"
-            x-init="setTimeout(() => show = false,4000)"
-            x-show="show"
-            class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3">
-            <p>{{session('emailError')}}</p>
-        </div>
-    @endif
+    <x-flash-message class="bg-red-500"></x-flash-message>
     <x-footer>
 
     </x-footer>

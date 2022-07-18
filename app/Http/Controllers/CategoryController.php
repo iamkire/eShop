@@ -46,7 +46,7 @@ class CategoryController extends Controller
     public function delete($category)
     {
         Category::destroy($category);
-        return redirect()->back()->with(['categoryRemoved' => 'Category has been removed']);
+        return redirect()->back()->with('message','Category has been removed');
     }
 
     public function create()
@@ -61,7 +61,7 @@ class CategoryController extends Controller
         ]);
         $category->create($attributes);
 
-        return redirect()->back()->with(['categoryCreated' => 'Category has been added']);
+        return redirect()->back()->with('message' , 'Category has been added');
     }
 
     public function update(Category $category)
@@ -70,6 +70,6 @@ class CategoryController extends Controller
             'name' => request('name')
         ]);
 
-        return redirect()->back()->with(['categoryUpdated' => 'Category has been updated']);
+        return redirect()->back()->with('message' , 'Category has been updated');
     }
 }

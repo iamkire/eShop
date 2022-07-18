@@ -39,12 +39,12 @@ class CommentController extends Controller
         ]);
         return redirect()->route('products.show', [
             'product' => $product
-        ])->with('commentUpdated', 'Comment has been edited');
+        ])->with('message', 'Comment has been edited');
     }
 
     public function delete($comment)
     {
         Comment::destroy($comment);
-        return redirect()->back()->with('commentDeleted', 'Comment removed');
+        return redirect()->back()->with('message', 'Comment removed');
     }
 }

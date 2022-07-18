@@ -78,7 +78,7 @@ class ProductController extends Controller
                 'tag_id' => $tag->id
             ]);
         }
-        return back()->with(['addedProduct' => 'Product added successfully']);
+        return back()->with(['message' => 'Product added successfully']);
     }
 
     public function show($productId)
@@ -123,12 +123,12 @@ class ProductController extends Controller
             'image' => ImageController::getImage()
         ]);
 
-        return redirect()->route('admin.products')->with('updated', 'Product updated successfully');
+        return redirect()->route('admin.products')->with('message', 'Product updated successfully');
     }
 
     public function destroy($product)
     {
         Product::destroy($product);
-        return back()->with('deleted', 'Product deleted');
+        return back()->with('message', 'Product deleted');
     }
 }
