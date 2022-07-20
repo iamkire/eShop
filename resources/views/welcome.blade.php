@@ -18,15 +18,10 @@
         </x-slot:count>
     </x-navbar>
 
-    <x-carousel>
-
-    </x-carousel>
-    <x-hero>
-
-    </x-hero>
+    <x-carousel></x-carousel>
+    <x-hero></x-hero>
 
     @if($products->count() == 0)
-
         <header class=" mt-10">
             <div class="w-1/3 px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
                 <div class="sm:justify-center sm:items-center sm:flex">
@@ -41,7 +36,6 @@
             </div>
         </header>
     @else
-
         <div class="max-w-lg mx-auto text-center mt-12 p-5">
             <h2 class="p-5 text-3xl font-bold sm:text-4xl">Start shopping now</h2>
             <p class="mt-4">
@@ -52,35 +46,18 @@
         </div>
     @endif
     <section id="products" class="flex flex-wrap  justify-center">
-        @foreach($products as $product)
-            <div class="m-5 p-6 max-w-sm bg-white rounded-lg border">
-
-                @if(Auth::check())
-                    <a href="{{route('products.show',$product->id)}}">
-                        @endif
-                        <img class="object-cover w-full -mt-3 h-96" src="{{asset('../images/' . $product->image)}}"
-                             alt=""/>
-                    </a>
-                    <div class="p-5">
-                        @if(Auth::check())
-                            <a href="{{route('products.show',$product->id)}}">
-                                @endif
-                                <h2 class="mt-1 text-2xl font-extrabold tracking-wide uppercase lg:text-3xl">
-                                    {{$product->title}}
-                                </h2></a>
-                            <p class="mb-3 font-normal">{{$product->excerpt}}</p>
-                            <p class="mb-3 font-normal">{{$product->description}}</p>
-
-                            <div class="flex items-center justify-between mt-4 font-bold">
-                                <p class="text-lg">
-                                    ${{$product->price}}
-                                </p>
-                            </div>
-                            <p class="mb-3 font-normal text-yellow-700">
-                                Published {{ ($product->created_at->diffForHumans()) }} </p>
+        @forelse($products as $product)
+        <x-products-card :product="$product"></x-products-card>
+        @empty
+            <div class="mt-10   max-w-screen-xl px-4 py-8 mx-auto sm:py-12 sm:px-6 lg:px-8">
+                <div class="sm:justify-between sm:items-center sm:flex">
+                    <div class="text-center sm:text-left">
+                        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+                            Looks like there are no products!
+                        </h1>
                     </div>
             </div>
-        @endforeach
+        @endforelse
 
     </section>
     <x-about-style>

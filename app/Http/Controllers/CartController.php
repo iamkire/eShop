@@ -22,6 +22,8 @@ class CartController extends Controller
                 'price' => $product->price,
                 'quantity' => request('quantity')
             ]);
+
+
             return redirect('/')->with('message', 'Product added');
         } else {
             return view('auth.login');
