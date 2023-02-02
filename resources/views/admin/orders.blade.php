@@ -25,9 +25,10 @@
                                     <td class="p-8">Quantity</td>
                                     <td class="p-8">Price</td>
                                     <td class="p-8">Status</td>
-                                    <td class="p-8">Action</td>
+                                    <td id='action' class="p-8">Action</td>
                                     <td class="p-8">Remove</td>
                                 </tr>
+
                                 @foreach($orders as $order)
                                   <x-ordered-products :order="$order"></x-ordered-products>
                                 @endforeach
@@ -63,4 +64,10 @@
             <x-flash-message class="bg-red-500"></x-flash-message>
         </div>
 </x-app-layout>
+<script>
+    $(document).ready(function(){
+        if($("#status").text() == 'Delivered')
+            $("#allow-btn").hide();
+    })
+</script>
 

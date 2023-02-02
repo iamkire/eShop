@@ -20,7 +20,7 @@ class UserFactory extends Factory
         return [
             'name' => 'admin',
             'email' => 'admin@eshop.com',
-            'password' => '$2y$10$u0wW68AVOLQ4s11wAGSBCOpo6ypQ52Lv1SG7a1iQII7DW4HQrnYaq',
+            'password' => '123123',
             'user_type' => 1
 
         ];

@@ -54,14 +54,14 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create([
-            'title' => request('title'),
-            'excerpt' => request('excerpt'),
-            'description' => request('description'),
-            'price' => request('price'),
-            'image' => ImageController::getImage()
-        ]);
 
+        $product = Product::create([
+           'title' => request('title'),
+           'excerpt' => request('excerpt'),
+           'description' =>request('description'),
+           'price' => request('price'),
+           'image' => ImageController::getImage()
+        ]);
         $product->save();
 
         $product->categories()->attach(request()->category);

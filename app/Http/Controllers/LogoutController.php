@@ -14,6 +14,6 @@ class LogoutController extends Controller
 
         Auth::logout();
 
-        return redirect('/');
+        return redirect('/')->with('message','You are logged out');
     }
 }

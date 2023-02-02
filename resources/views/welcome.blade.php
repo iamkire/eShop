@@ -60,9 +60,13 @@
         @endforelse
 
     </section>
+    <x-flash-message></x-flash-message>
+
     <x-about-style>
 
     </x-about-style>
+
+
     <x-flash-message></x-flash-message>
     @guest
         <x-aboutus>

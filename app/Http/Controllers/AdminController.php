@@ -20,6 +20,7 @@ class AdminController extends Controller
         $order->save();
 
         return redirect()->back()->with('message', 'Order has been delivered');
+
     }
 
     public function products()

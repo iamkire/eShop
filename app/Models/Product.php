@@ -31,6 +31,6 @@ class Product extends Model
     public function carts()
     {
         return $this->belongsToMany(Cart::class,'product_cart')
-            ->withPivot('quantity_ordered');
+            ->withPivot(['quantity_ordered','price']);
     }
 }

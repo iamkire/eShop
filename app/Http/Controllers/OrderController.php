@@ -22,6 +22,9 @@ class OrderController extends Controller
         $user = auth()->user();
         $count = Cart::countproducts($user);
         $carts = Cart::where('email', $user->email)->get();
+//        $totalPrice = $carts->products()->sum(function ($product){
+//           return $product->pivot->price* $product->pivot->quantity_ordered;
+//        });
         return view('cart.show', compact('count', 'carts'));
     }
 
